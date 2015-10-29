@@ -2,16 +2,16 @@
 
 ##-------------------------------------------------------------------
 # Author: Nilgun Donmez
-# Date: July 17, 2013
+# Date: October 29, 2015
 #
 # This is a wrapper script that calls the methods in the "compas" R package.
 #
-# Input:	.counts file (Output of processSam.pl)
-#           .hist file (Output of processSam.pl)
+# Input:   *.counts (Output of processSam.pl)
+#          *.hist (Output of processSam.pl)
 #
-# Output:	.gtf (Contains the predicted isoforms)
-# 			.stat (Contains statistics about the processed genes)
-#			.out (Comparison of predicted isoforms in multi-sample mode)
+# Output:  *.gtf (Contains the predicted isoforms)
+#          *.stat (Contains statistics about the processed genes)
+#          *.out (Comparison of predicted isoforms in multi-sample mode)
 #
 # Part of COMPAS package. See README.md for more information.
 ##-------------------------------------------------------------------
@@ -21,15 +21,25 @@ library("compas")
 argline <- commandArgs(TRUE)
 myargs <- (strsplit(argline, " "))
 
-if(length(myargs) < 7)
+usage <- function()
 {
-	warning("Usage: runCOMPAS.R <#samples> -i <input file> -o <output prefix> -b <baseline reads> -c <ignorance cutoff> -s <SI cutoff> -l[2] <read length> -n[2] <#reads> -h[2] <hist file>")		
+	warning("Usage: runCOMPAS.R <#samples> -i <input file> -o <output prefix> -b <baseline reads> -c <ignorance cutoff> -s <SI cutoff> -l[2] <read length> -n[2] <#reads> -h[2] <hist file>")
+	warning("Part of COMPAS package. See README.md for more information.")
 	quit()
 }
 
+if(length(myargs) < 7)
+	usage()
+	
 baseReads <- 10*1000*1000
-
 numSamples <- as.numeric(myargs[1][[1]])
+
+if(numSamples > 2 || numSamples < 1)
+{
+	warning("COMPAS currently only allows 1 or 2 samples. Please check your command!")
+	usage()
+}
+
 numReads <- rep(baseReads, numSamples)
 readLength <- rep(100, numSamples)
 histFiles <- rep("none", numSamples)

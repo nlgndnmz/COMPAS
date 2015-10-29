@@ -8,10 +8,10 @@
 # and creates a single .counts file to be used by the R scripts in
 # multi-sample mode.
 #
-# Input:	.counts (counts file belonging to sample 1)
-#			.counts (counts file belonging to sample 2)
+# Input:  *.counts (counts file belonging to sample 1)
+#         *.counts (counts file belonging to sample 2)
 #
-# Output:	.counts (written to standard output)
+# Output: *.counts (written to standard output)
 #
 # Part of COMPAS package. See README.md for more information.
 ##-------------------------------------------------------------------
@@ -22,7 +22,8 @@ use Getopt::Long;
 
 sub usage
 {
-	print STDERR "Usage: mergeCounts -q <sample1.counts> -t <sample2.counts> > <combined.counts> \n\n";
+	print STDERR "Usage: mergeCounts.pl -q <sample1.counts> -t <sample2.counts> > <combined.counts>\n";
+	print STDERR "Part of COMPAS package. See README.md for more information.\n\n"
 	exit(0);
 }
 if($#ARGV < 3) { usage(); }

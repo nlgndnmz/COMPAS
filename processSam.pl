@@ -4,15 +4,15 @@
 # Author: Nilgun Donmez
 # Date: October 29, 2015
 #
-# This script processes the read mappings and converts them to an internal
-# format to be used by the R scripts in the package.
+# This script processes the read mappings in .sam format and 
+# converts them to an internal format to be used by the R scripts.
 #
-# Input:	*.sam (read mappings, read from standard input)
-#			*.gtf (Gene annotation file that has been used for the mappings)
+# Input:  *.sam (read mappings, read from standard input)
+#         *.gtf (Gene annotation file that has been used for the mappings)
 #
-# Output:	<output_prefix>.counts (Internal file to be used by runCOMPAS.R)
-#			<output_prefix>.hist (Internal file containing statistics about read coverage)
-#			<output_prefix>.skipped (Internal file containing the IDs of overlapping genes)
+# Output: *.counts (Internal file to be used by runCOMPAS.R)
+#         *.hist (Internal file containing statistics about read coverage)
+#         *.skipped (Internal file containing the IDs of overlapping genes)
 #
 # Part of COMPAS package. See README.md for more information.
 ##-------------------------------------------------------------------
@@ -27,6 +27,7 @@ sub usage
 	print STDERR "Set the -s option to 1 for the forward strand genes and 2 for the reverse strand genes in a strand-specific dataset; set it to 0 for non-strand-specific datasets.\n";
 	print STDERR "For strand-specific datasets, it is assumed that the SECOND read in the pair matches the strand of the gene. Otherwise, use the toggle '-t' option along with the commands above.\n";
 	print STDERR "This script normally expects the SAM file to be sorted by genomic coordinates. For unsorted SAM files, use the '-u' option.\n\n";
+	print STDERR "Part of COMPAS package. See README.md for more information.\n\n"
 	exit(0);
 }
 if($#ARGV < 7) { usage(); }	
