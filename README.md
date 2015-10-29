@@ -37,9 +37,11 @@ cat ./tumor.sam | processSam.pl -g ./gene_annotations.gtf -o tumor -r 100 -s 0
 cat ./benign.sam | processSam.pl -g ./gene_annotations.gtf -o benign -r 100 -s 0
 ```
 
-Above, "gene_annotations.gtf" is a GTF formatted annotation file (ideally the same file that was used during the mapping phase). The directive "-r 100" tells the script that the read length is 100bp and "-o" option specifies the prefix for the output files. "-s 0" option tells the script that this RNA-Seq dataset is not strand-specific. This option can be omitted as long as the dataset is not strand-specific. Otherwise, it should be set to either "-s 1" (for forward strand genes) or "-s 2" (for reverse strand genes). The above command will work for .sam files that are coordinate sorted. If your files are not sorted by genomic coordinates, you have to toggle the "-u" option:
+Above, "gene_annotations.gtf" is a GTF formatted annotation file (ideally the same file that was used during the mapping phase). The directive "-r 100" tells the script that the read length is 100bp and "-o" option specifies the prefix for the output files. "-s 0" option tells the script that this RNA-Seq dataset is not strand-specific. This option can be omitted as long as the dataset is not strand-specific. Otherwise, it should be set to either "-s 1" (for forward strand genes) or "-s 2" (for reverse strand genes). 
 
-` cat ./unsorted_tumor.sam | processSam.pl -g ./gene_annotations.gtf -o tumor -r 100 -s 0 -u `
+The above command will work for .sam files that are coordinate sorted. If your files are not sorted by genomic coordinates, you have to toggle the "-u" option:
+
+` cat ./unsorted.sam | processSam.pl -g ./gene_annotations.gtf -o unsorted -r 100 -s 0 -u `
 
 Note that processSam.pl reads its input from standard input. This is to facilitate pipelines. For example, if you keep your mapping files in compressed .bam format you can do:
 
@@ -55,7 +57,7 @@ To use COMPAS in (default) comparative mode, you first have to combine the outpu
 
 mergeCounts.pl -q benign.counts -t tumor.counts > benign_vs_tumor.counts \n\n";
 
-Note that the order of the parameters "-q" and "-t" above does not matter. Note that mergeCounts.pl writes its output to standard output, so directing this into a file (as above) is highly recommended.
+Note that mergeCounts.pl writes its output to standard output, so directing this into a file (as above) is highly recommended.
 
 ###### Step 3
 
@@ -63,7 +65,7 @@ In this step, we run the main R script as below:
 
 ` runCOMPAS.R 2 -b 100000000 -i ./benign_vs_tumor.counts -o ./benignVStumor -h ./tumor.hist -l 100 -n 382000000 -h2 ./benign.hist -l2 100 -n2 391000000 > run.log `
 
-Above "benign_vs_tumor.counts" is the file we obtained in the previous step and "benignVStumor" is a prefix for the output files to be written. The arguments "-h", "-l" and "-n" are the .hist file, the read length in base pairs and the total number of reads mapped for the benign dataset (given with -q option in mergeCounts.pl) respectively. "-h2", "-l2" and "-n2" are the same arguments for the second sample. Note that this script writes its progress to the standard output. If you wish to keep this information, direct it to a file as above.
+Above the first argument is required and states that we have 2 samples. The "-b" option specifies the baseline number of reads and is used to normalize the coverage depths. Fine-tuning of this parameter is not crucial, however we recommended that it is set to roughly the same magnitude as the number of reads mapped in each dataset. More importantly, if you intend to run COMPAS on many samples and integrate the downstream analysis, you should fix this parameter to a constant for all runs. "benign_vs_tumor.counts" is the file we obtained in the previous step and "benignVStumor" is a prefix for the output files to be written. The arguments "-h", "-l" and "-n" specify the .hist file, the read length in base pairs and the total number of reads mapped for the benign dataset (given with -q option in mergeCounts.pl) respectively. "-h2", "-l2" and "-n2" are the same arguments for the second sample (given with -t option in mergeCounts.pl). This script writes its progress to the standard output. If you wish to keep this information, direct it to a file as above.
 
 Note that the above command assumes you have already installed the "compas" package on your system. If the run is successful, the following four files will be written:
 
@@ -72,6 +74,10 @@ Note that the above command assumes you have already installed the "compas" pack
 - benignVStumor.stat
 - benignVStumor.out
 
-The first two files above are GTF formatted files containing all potential transcripts. The .stat file contains some statistics about the optimization run. The .out file contains the predicted major splicing differences between the two samples.  
+The first two files above are GTF formatted files containing all potential transcripts in the first (benign) and second (tumor) samples respectively. The .stat file contains auxiliary information including estimated expression value for each gene. The .out file contains the predicted major splicing differences between the two samples.  
 
+##### Running COMPAS in single mode
 
+While COMPAS is intended to be used as a comparative tool, you can run it on a single sample to get estimated gene expression levels. To do this, just skip Step 2 above and execute runCOMPAS.R directly:
+
+` runCOMPAS.R 1 -b 100000000 -i ./tumor.counts -o ./tumor -h ./tumor.hist -l 100 -n 382000000 `
