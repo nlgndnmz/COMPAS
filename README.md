@@ -14,7 +14,7 @@ You also need an efficient RNA-Seq mapper (such as, but not limited to, TopHat h
 
 ##### Installation
 
-To run COMPAS, you need to install the "compas" R package (soon to be made available from CRAN, currently available upon request) on your system. The best way to do this is through install.packages() function in R. In addition to this package, COMPAS needs the following scripts:
+To run COMPAS, you need to install the "compas" R package (soon to be made available from CRAN, currently available upon request - see compas-manual.pdf for contact info) on your system. The best way to do this is through install.packages() function in R. In addition to this package, COMPAS needs the following scripts:
 
 - processSam.pl
 - mergeCounts.pl
@@ -32,8 +32,10 @@ For the rest of this section, I will suppose you have two high-throughput RNA-Se
 
 Run the following commands (can be run in parallel):
 
-` cat ./tumor.sam | processSam.pl -g ./gene_annotations.gtf -o tumor -r 100 -s 0 `
-` cat ./benign.sam | processSam.pl -g ./gene_annotations.gtf -o benign -r 100 -s 0 `
+```
+cat ./tumor.sam | processSam.pl -g ./gene_annotations.gtf -o tumor -r 100 -s 0
+cat ./benign.sam | processSam.pl -g ./gene_annotations.gtf -o benign -r 100 -s 0
+```
 
 Above, "gene_annotations.gtf" is a GTF formatted annotation file (ideally the same file that was used during the mapping phase). The directive "-r 100" tells the script that the read length is 100bp and "-o" option specifies the prefix for the output files. "-s 0" option tells the script that this RNA-Seq dataset is not strand-specific. This option can be omitted as long as the dataset is not strand-specific. Otherwise, it should be set to either "-s 1" (for forward strand genes) or "-s 2" (for reverse strand genes). The above command will work for .sam files that are coordinate sorted. If your files are not sorted by genomic coordinates, you have to toggle the "-u" option:
 
