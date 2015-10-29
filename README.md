@@ -1,10 +1,9 @@
-## COMPAS
-#### Comparative alternative splicing detection
+## COMPAS - Comparative alternative splicing detection
 ###### Author: Nilgun Donmez
 
 COMPAS is a bioinformatics tool that is designed to analyze pairs of RNA-Seq datasets in order to identify significant splice variants.
 
-#### PRE-REQUISITES
+##### Pre-requisites
 
 To use COMPAS, you need Perl ( http://www.perl.org/ ) and R ( http://www.r-project.org/ ) installed on your machine. COMPAS has primarily been tested on 64-bit Linux environments using the following versions (though older or newer versions may also work):
 
@@ -13,7 +12,7 @@ To use COMPAS, you need Perl ( http://www.perl.org/ ) and R ( http://www.r-proje
 	
 You also need an efficient RNA-Seq mapper (such as, but not limited to, TopHat http://tophat.cbcb.umd.edu/ ) which can report its output in .sam (or .bam) format. The choice of the mapper is left to the user, however we recommend using a software that can both use annotations and find novel junctions. High mapping sensitivity is also recommended.
 
-#### INSTALLATION
+##### Installation
 
 To run COMPAS, you need to install the "compas" R package (soon to be made available from CRAN, currently available upon request) on your system. The best way to do this is through install.packages() function in R. In addition to this package, COMPAS needs the following scripts:
 
@@ -23,7 +22,7 @@ To run COMPAS, you need to install the "compas" R package (soon to be made avail
 
 To call these scripts from anywhere, simply copy them to your ./bin or add the directory containing COMPAS to your path.
 
-#### RUNNING COMPAS
+##### Running COMPAS
 
 First, you should map the reads for each dataset to the reference genome using an up-to-date gene annotation file (latest Ensembl annotations are recommended). Keep this annotation file (must be in .gtf format) around since you will need it in later steps. Note that if you have reads from multiple lanes and/or paired-end reads in separate fastq files, make sure to map them together into a single .sam file.
 
@@ -66,10 +65,10 @@ Above "benign_vs_tumor.counts" is the file we obtained in the previous step and 
 
 Note that the above command assumes you have already installed the "compas" package on your system. If the run is successful, the following four files will be written:
 
-benignVStumor.1.gtf
-benignVStumor.2.gtf
-benignVStumor.stat
-benignVStumor.out
+- benignVStumor.1.gtf
+- benignVStumor.2.gtf
+- benignVStumor.stat
+- benignVStumor.out
 
 The first two files above are GTF formatted files containing all potential transcripts. The .stat file contains some statistics about the optimization run. The .out file contains the predicted major splicing differences between the two samples.  
 
