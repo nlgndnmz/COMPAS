@@ -14,7 +14,13 @@ You also need an efficient RNA-Seq mapper (such as, but not limited to, TopHat h
 
 ##### Installation
 
-To run COMPAS, you need to install the "compas" R package (soon to be made available from CRAN, currently available upon request - see compas-manual.pdf for contact info) on your system. The best way to do this is through install.packages() function in R. In addition to this package, COMPAS needs the following scripts:
+To run COMPAS, you need to install the "compas" R package on your system. The best way to do this is through install.packages() function in R:
+
+` install.packages("./COMPAS-master/compas", repos=NULL, type="source") `
+
+Note that the above command only works if you have developer tools for R (this will be the case if you have built R from source).
+
+In addition to this package, COMPAS needs the following scripts:
 
 - processSam.pl
 - mergeCounts.pl
