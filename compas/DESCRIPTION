@@ -1,0 +1,9 @@
+Package: compas
+Type: Package
+Title: Comparative alternative splicing detection
+Version: 1.0
+Date: 2015-10-28
+Author: Nilgun Donmez
+Maintainer: Nilgun Donmez <ndonmez@sfu.ca>
+Description: This package is a collation of the necessary functions to run COMPAS, a comparative tool to detect alternative splicing using RNA-Seq data.
+License: GPL-2
