@@ -27,7 +27,7 @@ sub usage
 	print STDERR "Set the -s option to 1 for the forward strand genes and 2 for the reverse strand genes in a strand-specific dataset; set it to 0 for non-strand-specific datasets.\n";
 	print STDERR "For strand-specific datasets, it is assumed that the SECOND read in the pair matches the strand of the gene. Otherwise, use the toggle '-t' option along with the commands above.\n";
 	print STDERR "This script normally expects the SAM file to be sorted by genomic coordinates. For unsorted SAM files, use the '-u' option.\n\n";
-	print STDERR "Part of COMPAS package. See README.md for more information.\n\n"
+	print STDERR "Part of COMPAS package. See README.md for more information.\n\n";
 	exit(0);
 }
 if($#ARGV < 7) { usage(); }	
@@ -626,8 +626,8 @@ while(<STDIN>)
 	my @parts = split(' ', $s, 12);		# this behaves as awk
 
 	my $chr = $parts[2];
-	if($chr =~ /^chr/)
-	{	$chr = substr($chr, 3); }
+	#if($chr =~ /^chr/)   
+	#{	$chr = substr($chr, 3); }
 	
 	my $flg = $parts[1];	
 	
